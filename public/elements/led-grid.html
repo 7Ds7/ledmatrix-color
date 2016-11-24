@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements/led-state.html">
+
+<dom-module id="led-grid">
+  <template>
+
+    <style>
+      /* local styles go here */
+      :host {
+        display: block;
+      }
+
+    </style>
+    <!-- local DOM goes here -->
+    <div id="Container"></div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'led-grid',
+
+      properties: {
+        size: Number
+      },
+
+      created: function() {
+        //this.removeAttribute('unresolved');
+      },
+
+      ready: function() {
+        console.log('ready led grid');
+        // 15 is the number of a pixel
+        var full_size = 15 * this.size;
+
+        //this.$.Grid.style.width = 15 * this.size;
+        this.style.width = full_size + 'px';
+        this.style.height = full_size + 'px';
+
+        for (var r = 0 ; r < this.size; r++) {
+
+          for (var p = 0; p < this.size; p++) {
+            var lstate = document.createElement('led-state');
+            lstate.setAttribute('row', r);
+            lstate.setAttribute('pos', p);
+            this.$.Container.appendChild(lstate);
+          }
+        }
+      }
+    });
+  </script>
+
+</dom-module>

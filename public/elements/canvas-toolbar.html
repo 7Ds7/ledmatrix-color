@@ -1,0 +1,259 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<script type="text/javascript" src="../bower_components/colorPicker/colors.js"></script>
+<script type="text/javascript" src="../bower_components/colorPicker/colorPicker.data.js"></script>
+<script type="text/javascript" src="../bower_components/colorPicker/colorPicker.js"></script>
+<script type="text/javascript" src="../bower_components/colorPicker/javascript_implementation/jsColor.js"></script>
+
+<link href="../bower_components/colorPicker/javascript_implementation/jsColor.css" media="all" rel="stylesheet" type="text/css" />
+
+<dom-module id="canvas-toolbar">
+  <template>
+
+    <style>
+      /* local styles go here */
+      :host {
+        float: left;
+      }
+
+      #container {
+        margin-right: 20px;
+      }
+
+      .tool {
+        padding: 5px;
+        margin-bottom: 1px;
+        text-align: center;
+        border: 2px solid #1D1D1D;
+        background-color: #353434;
+      }
+
+      .tool:hover, .tool.selected {
+        border-color: #7DFDFE;
+      }
+
+      iron-icon {
+        width: 32px;
+        height: 32px;
+        pointer-events: none;
+      }
+
+      .color-swapper {
+        margin-top: 30px;
+        position: relative;
+      }
+
+      .swatch, input {
+        width: 30px;
+        height: 30px;
+        border: 2px solid #808080;
+      }
+
+      .foreground-color {
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        color: #FFF; /* text changes after color picker instantiation*/
+      }
+
+      .background-color {
+        position: absolute;
+        right: 0;
+        top: 20px;
+      }
+
+      .switch-wrapper {
+        position: relative;
+        margin-top: 65px;
+        left: -7px;
+        width: 20px;
+        height: 20px;
+
+      }
+
+      .switch-wrapper iron-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .switch-wrapper, .swatch, .tool {
+        cursor: pointer;
+      }
+
+
+    </style>
+
+    <!-- local DOM goes here -->
+    <iron-a11y-keys
+      id="keys"
+      keys="x p e"
+      on-keys-pressed="_useShortcut"></iron-a11y-keys>
+
+    <div id="container">
+      <div class="tool" on-click="toolClick" id="pencilTool" data-tool-type="pencil" title="Pencil tool (p)">
+        <iron-icon icon="editor:mode-edit"></iron-icon>
+      </div>
+      <div class="tool" on-click="toolClick" id="eraserTool" data-tool-type="eraser" title="Eraser tool (e)">
+        <iron-icon icon="editor:format-color-reset"></iron-icon>
+      </div>
+
+      <div class="color-swapper">
+
+        <input id="foregroundColor" type="text" class="swatch foreground-color" value="rgb(255, 255, 255)" data-colormode="rgb">
+        <input id="backgroundColor" type="text" class="swatch background-color" value="rgb(50, 50, 255)" data-colormode="rgb">
+
+        <!-- <div class="swatch foreground-color" on-tap="openPicker" style="background: red">
+
+        </div>
+        <div class="swatch background-color" style="background: blue">
+
+        </div> -->
+      </div>
+
+      <div class="switch-wrapper" on-tap="_shortcutSwapColors" title="Swap colors (x)"><iron-icon icon="icons:swap-vert"></iron-icon></div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'canvas-toolbar',
+
+      properties: {
+        pickers: Array
+
+      },
+
+      created: function() {
+        console.log('created toolbar');
+        this.removeAttribute('unresolved');
+      },
+
+      ready: function() {
+        console.log('ready toolbar');
+        //this.$.container.querySelectorAll('.tool');
+
+
+      },
+
+      attached: function() {
+        var t = this;
+        this.async(function() {
+
+          var cpicker = jsColorPicker('.swatch', {
+                ctx: this.$.container,
+                showValue: false,
+                multipleInstances: true,
+                //readOnly: false,
+                // patch: false,
+                init: function(elm, colors) { // colors is a different instance (not connected to colorPicker)
+                  console.log('wetas');
+                  elm.style.backgroundColor = elm.value;
+                  //elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
+                  console.log(elm);
+
+                }
+                // extractValue: function(elm) {
+                //   console.log('extract');
+                // },
+                // actionCallback: function(event, type) {
+                //   console.log('olha aqui');
+                // },
+                // renderCallback: function(colors, mode){
+                //   console.log('rendercallback')
+                // }
+                // renderCallback: function(e) {
+                //   console.log(e);
+                // }
+                // appendTo: document.querySelector('.samples')
+              });
+
+
+          // What a strange way to instantiate the window.jsColorPicker.colorpickers
+          var $fc = this.$.container.querySelector('.foreground-color');
+          var $bc = this.$.container.querySelector('.background-color');
+          var efocus = new CustomEvent('focus');
+          var emdown = new CustomEvent('mousedown');
+
+          $fc.dispatchEvent(efocus);
+          $bc.dispatchEvent(efocus);
+
+          setTimeout(function() {
+            forEachNode(document.querySelectorAll('.cp-app'), function (index, elm) {
+              elm.style = 'display: none';
+            });
+          }, 250);
+
+
+
+
+
+
+        });
+        t.$.pencilTool.click();
+        document.querySelector('ledmatrix-app').currentTool = "pencil";
+        t.$.keys.target = document;
+
+      },
+
+      _useShortcut: function(e,d) {
+        console.log(e, d);
+        console.log(d.keyboardEvent.key);
+        var kpressed = d.keyboardEvent.key;
+        switch (kpressed) {
+          case 'x':
+            this._shortcutSwapColors();
+            break;
+          case 'p':
+            this.$.pencilTool.click();
+            break;
+          case 'e':
+            this.$.eraserTool.click();
+            break;
+          default:
+            break;
+        };
+      },
+
+      _shortcutSwapColors: function() {
+        console.log('_shortcutSwapColors');
+        var fc = window.jsColorPicker.colorPickers[0];
+        var bc = window.jsColorPicker.colorPickers[1];
+        var fhold = this.$.container.querySelector('.foreground-color').value;
+        var bhold = this.$.container.querySelector('.background-color').value;
+
+        fc.startRender();
+        fc.setColor(bhold);
+        fc.stopRender();
+
+        bc.startRender();
+        bc.setColor(fhold);
+        bc.stopRender();
+
+        //debugger;
+      },
+
+      _highlightSelected: function(el) {
+        var $$all_tools = this.$.container.querySelectorAll('.tool');
+        var $lm_app = document.querySelector('ledmatrix-app');
+        forEachNode($$all_tools, function (index, elm) {
+          console.log(index, elm); // passes index + value back!
+          elm.classList.remove('selected')
+        });
+        el.classList.add('selected');
+        $lm_app.setAttribute('current-tool', el.dataset.toolType);
+
+      },
+
+      toolClick: function(e) {
+        console.log('ping', e.target);
+        this._highlightSelected(e.target);
+
+      }
+    });
+  </script>
+
+</dom-module>

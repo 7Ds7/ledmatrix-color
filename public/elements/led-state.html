@@ -1,0 +1,99 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="led-state">
+  <template>
+
+    <style>
+      /* local styles go here */
+      :host {
+        float: left;
+      }
+
+      #LedState {
+        width: 15px;
+        height: 15px;
+        box-shadow: 0px 0px 1px #f5f5f5;
+        cursor:crosshair;
+      }
+
+      #LedState:hover {
+        background-color: rgba(125,253, 254, 0.5) !important;
+      }
+
+    </style>
+    <!-- local DOM goes here -->
+    <div id="LedState" on-track="dragState" on-tap="clickLState" data-row$="{{row}}" data-pos$="{{pos}}" data-rgbobj$="{{color}}" data-alpha$="{{alpha}}"></div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'led-state',
+
+      properties: {
+        row: Number,
+        pos: Number,
+        alpha: {
+          type: Number,
+          value: 0
+        },
+        rgbobj: {
+          type: Object,
+          value: {r: 0, g: 0, b: 0}
+        }
+
+      },
+
+      created: function () {
+        this.removeAttribute('unresolved');
+      },
+
+      ready: function () {
+        console.log('ready led state');
+        this.$.LedState.addEventListener('contextmenu', this.clickRState);
+      },
+
+      clickLState: function (e, detail) {
+        console.log('clickLState');
+        //debugger
+        //this.dataToElement(e.detail.led, 0);
+        this.dataToElement(this, 0);
+        document.querySelector('ledmatrix-app').fire('doAction', {led: this, but: 1});
+      },
+
+      dragState: function (e, detail) {
+        //console.log('dragState');
+        var $cur = e.detail.hover();
+        var cur_but = e.detail.sourceEvent.buttons;
+        if ( $cur.getAttribute('id') == "LedState") {
+          $cur = Polymer.dom($cur).getOwnerRoot().host;
+          if ( cur_but !== 0 ) this.dataToElement($cur , cur_but - 1 );
+          document.querySelector('ledmatrix-app').fire('doAction', {led: $cur, but: cur_but});
+        }
+
+      },
+
+      clickRState: function(e, detail) {
+        e.preventDefault();
+        console.log('clickRState');
+        var $cur = Polymer.dom(this).getOwnerRoot().host;
+        $cur.dataToElement(this, 1);
+        document.querySelector('ledmatrix-app').fire('doAction', {led: $cur, but: 2});
+        return false;
+      },
+
+      // THIS DATA TO ELM SHOULD GO IN ledmatridx-app investigate
+      // warning: but_cp_index should be related to jsColorPicker array, not button
+      dataToElement: function (el, but_cp_index) {
+        console.log('dataToElement');
+        console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
+        el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
+        el.setAttribute('alpha', window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
+
+      }
+
+
+    });
+  </script>
+
+</dom-module>

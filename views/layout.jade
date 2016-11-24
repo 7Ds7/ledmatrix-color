@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/bower_components/socket.io-client/socket.io.js')
+    script(src='/javascripts/main.js')
+    link(rel='import', href='elements/ledmatrix-app.html' async)
+
+  body(unresolved)
+    block content
+
+    script.
+      Polymer = {lazyRegister: true, dom: 'shadow'};
+      //Polymer = {lazyRegister: true};
+
+      (function() {
+        if ('registerElement' in document
+            && 'import' in document.createElement('link')
+            && 'content' in document.createElement('template')) {
+          // platform is good!
+        } else {
+          // polyfill the platform!
+          var e = document.createElement('script');
+          e.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          document.body.appendChild(e);
+        }
+      })();
+
