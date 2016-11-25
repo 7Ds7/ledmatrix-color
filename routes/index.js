@@ -13,56 +13,63 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Led Color' });
 });
 
-io.on('connection', function(client){
+io.on('connection', function(client) {
   console.log('connect on server') ;
 
   client.on('disconnect', function(){ console.log('disconnect') });
 
-  client.on('buttonclicked', function(dt) {
+  client.on('pixelpaint', function(dt) {
     console.log('server says');
     console.log(dt);
-    client.broadcast.emit('serveranswer', "asd");
+    console.log(typeof dt);
+    console.log(dt.row);
+    console.log(dt.pos);
+    console.log(dt.alpha);
+    grid_state[dt.row][dt.pos] = {
+      on: true,
+      rgba: {
+        r: dt.rgbobj.r,
+        g: dt.rgbobj.g,
+        b: dt.rgbobj.b,
+        a: dt.alpha
+      }
+    }
+
+
+
+    client.broadcast.emit('single', { row: dt.row, pos: dt.pos, rgba: {
+        r: dt.rgbobj.r,
+        g: dt.rgbobj.g,
+        b: dt.rgbobj.b,
+        a: dt.alpha
+      }});
     //io.emit('serveranswer', 'asd');
   });
 
   io.emit('an event sent to all connected clients');
-  io.emit('event', 'asd');
+  io.emit('newcomer', grid_state);
 });
 
-var grid_state = [];
-grid_state[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[2] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[3] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[5] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[6] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[7] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[8] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[14] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[16] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[17] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[18] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[19] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[20] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[21] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[23] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[25] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[26] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[27] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[29] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[30] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-grid_state[31] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var current_color;
 
+var grid_state = [];
+
+function constructGrid() {
+  for (var col = 0; col< 32; col++ ) {
+    grid_state[col] = [];
+    for (var row = 0; row< 32; row++ ) {
+      grid_state[col][row] = [];
+      var strp = {
+        on: false,
+        rgba: {r: 0, g: 0, b: 0, a: 0}
+      };
+      grid_state[col][row] = strp;
+    }
+
+
+  }
+};
+constructGrid();
 
 
 var pp = new PixelPusher();
@@ -93,8 +100,8 @@ pp.on('discover', function(controller) {
     // create a timer of some fps frequency and send the new pixel data
     //--
     //
-    console.log('EEEEEE');
-    console.log( controller.params.pixelpusher);
+    console.log('--Pixel Pass--');
+    //console.log( controller.params.pixelpusher);
 
     var NUM_STRIPS = controller.params.pixelpusher.numberStrips;
 
@@ -104,16 +111,31 @@ pp.on('discover', function(controller) {
 
     // create a loop that will send commands to the PP to update the strip
     var UPDATE_FREQUENCY_MILLIS = 15;// 15 is just faster than 60 FPS
-    var a = true;
+
     timer = setInterval(function() {
         // create an array to hold the data for all the strips at once
          var strips = [];
         for (var stripId = 0; stripId< NUM_STRIPS; stripId ++){
             var s = new PixelPusher.PixelStrip(stripId,PIXELS_PER_STRIP);
-            s.getPixel(20).setColor(0,0,0,0.1);
-            if ( stripId === 15 ) {
-              s.getPixel(20).setColor(200,100,50,1);
+
+            for (var pxId = 0; pxId< NUM_STRIPS; pxId++) {
+              if( grid_state[stripId][pxId] && grid_state[stripId][pxId].on == true ) {
+                s.getPixel(pxId).setColor(
+                  grid_state[stripId][pxId].rgba.r,
+                  grid_state[stripId][pxId].rgba.g,
+                  grid_state[stripId][pxId].rgba.b,
+                  grid_state[stripId][pxId].rgba.a
+                  );
+              }
             }
+
+
+            // s.getPixel(1).setColor(10,0, 143,1);
+            // s.getPixel(2).setColor(10,0, 143,0.15);
+            // s.getPixel(20).setColor(100,200,100,0.5);
+            // if ( stripId === 15 ) {
+            //   s.getPixel(15).setColor(200,100,50,1);
+            // }
 
 
           var renderedStripData = s.getStripData();

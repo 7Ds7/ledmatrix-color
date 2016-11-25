@@ -6,13 +6,13 @@ var forEachNode = function (array, callback, scope) {
 
 
 var socket = io('http://localhost:3001');
+var connect_grid;
 
 document.addEventListener("DOMContentLoaded", function() {
-
   document.querySelector('.js-button-test').addEventListener('click', function() {
     console.log('clickityclick');
     console.log(socket);
-    socket.emit('buttonclicked', 'the button was clicked');
+    socket.emit('pixelpaint', 'the button was clicked');
   });
 
   socket.on('connect', function(){ console.log('connect on client')});
@@ -24,5 +24,20 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log('server says hi');
     });
 
-  socket.on('asd', function(){console.log('asd fired on client');})
+  socket.on('newcomer', function(dt){
+    console.log('asd fired on client');
+    console.log(dt);
+    connect_grid = dt;
+  });
+
+  socket.on('single', function(dt) {
+    console.log('single');
+    console.log(dt);
+    var $ls = document.querySelector('ledmatrix-app').$.LedGrid.$.Container.querySelector('led-state[row="'+dt.row+'"][pos="'+dt.pos+'"]');
+
+    $ls.setAttribute('alpha', dt.rgba.a);
+    $ls.setAttribute('rgbobj', '{ "r": '+dt.rgba.r+', "g": '+dt.rgba.g+', "b": '+dt.rgba.b+' }' );
+    console.log($ls);
+    console.log($ls.rgbobj);
+  });
 });

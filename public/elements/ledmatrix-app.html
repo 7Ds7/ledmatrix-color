@@ -26,7 +26,7 @@
     <div class="container">
       <div class="canvas-wrapper">
         <canvas-toolbar id="canvasToolbar"></canvas-toolbar>
-        <led-grid size="32"></led-grid>
+        <led-grid size="32" id="LedGrid"></led-grid>
       </div>
       <div class="camera-wrapper">camera</div>
     </div>
@@ -766,20 +766,30 @@
       doAction: function(e) {
         console.log('doAction');
         //console.log(e.detail.but);
+
         switch (true) {
           case (e.detail.but == 1 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.foregroundColor.value;
+            this.sendSocket(e.detail.led);
             break;
           case (e.detail.but == 2 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.backgroundColor.value;
             break;
           case (e.detail.but == 1 || e.detail.but == 2 && this.currentTool == 'eraser'):
             e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0,0)';
+            e.detail.led.alpha = 0;
+            this.sendSocket(e.detail.led);
             break;
           default:
             break;
         };
 
+      },
+      sendSocket: function( led) {
+        console.log(led);
+        window.ls = led;
+
+        socket.emit('pixelpaint', { row: led.row, pos: led.pos, rgbobj: led.rgbobj, alpha: led.alpha });
       }
     });
   </script>

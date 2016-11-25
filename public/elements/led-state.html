@@ -22,7 +22,7 @@
 
     </style>
     <!-- local DOM goes here -->
-    <div id="LedState" on-track="dragState" on-tap="clickLState" data-row$="{{row}}" data-pos$="{{pos}}" data-rgbobj$="{{color}}" data-alpha$="{{alpha}}"></div>
+    <div id="LedState" on-track="dragState" on-tap="clickLState" data-row$="{{row}}" data-pos$="{{pos}}" data-rgbobj$="{{color}}" data-alpha$="{{alpha}}" style$="background-color: rgba( {{rgbobj.r}}, {{rgbobj.g}}, {{rgbobj.b}}, {{alpha}} );"></div>
 
   </template>
 
@@ -39,7 +39,8 @@
         },
         rgbobj: {
           type: Object,
-          value: {r: 0, g: 0, b: 0}
+          value: {r: 0, g: 0, b: 0},
+          notify: true
         }
 
       },
@@ -87,7 +88,13 @@
       dataToElement: function (el, but_cp_index) {
         console.log('dataToElement');
         console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
-        el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
+
+        if ( document.querySelector('ledmatrix-app').currentTool == 'pencil') {
+          el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
+        } else {
+          el.setAttribute('rgbobj', '{ "r":0, "g":0, "b":0}' );
+        }
+
         el.setAttribute('alpha', window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
 
       }
