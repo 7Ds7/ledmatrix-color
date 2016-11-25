@@ -78,9 +78,11 @@
         e.preventDefault();
         console.log('clickRState');
         var $cur = Polymer.dom(this).getOwnerRoot().host;
-        $cur.dataToElement(this, 1);
+        // $cur.dataToElement(this, 1);
+        // document.querySelector('ledmatrix-app').fire('doAction', {led: $cur, but: 2});
+        // return false;
+        $cur.dataToElement($cur, 1);
         document.querySelector('ledmatrix-app').fire('doAction', {led: $cur, but: 2});
-        return false;
       },
 
       // THIS DATA TO ELM SHOULD GO IN ledmatridx-app investigate
@@ -90,8 +92,11 @@
         console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
 
         if ( document.querySelector('ledmatrix-app').currentTool == 'pencil') {
+          console.log('pencil');
+          console.log(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb);
           el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
         } else {
+          console.log('Else');
           el.setAttribute('rgbobj', '{ "r":0, "g":0, "b":0}' );
         }
 

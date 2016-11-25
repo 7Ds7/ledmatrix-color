@@ -119,7 +119,7 @@ pp.on('discover', function(controller) {
             var s = new PixelPusher.PixelStrip(stripId,PIXELS_PER_STRIP);
 
             for (var pxId = 0; pxId< NUM_STRIPS; pxId++) {
-              if( grid_state[stripId][pxId] && grid_state[stripId][pxId].on == true ) {
+              if( grid_state[stripId][pxId] ) {
                 s.getPixel(pxId).setColor(
                   grid_state[stripId][pxId].rgba.r,
                   grid_state[stripId][pxId].rgba.g,
