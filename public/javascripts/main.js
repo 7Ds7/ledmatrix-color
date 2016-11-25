@@ -5,7 +5,7 @@ var forEachNode = function (array, callback, scope) {
 };
 
 
-var socket = io('http://localhost:3001');
+var socket = io('http://192.168.0.100:3001');
 var connect_grid;
 
 document.addEventListener("DOMContentLoaded", function() {

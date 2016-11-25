@@ -774,6 +774,7 @@
             break;
           case (e.detail.but == 2 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.backgroundColor.value;
+            this.sendSocket(e.detail.led);
             break;
           case (e.detail.but == 1 || e.detail.but == 2 && this.currentTool == 'eraser'):
             e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0,0)';
@@ -788,7 +789,6 @@
       sendSocket: function( led) {
         console.log(led);
         window.ls = led;
-
         socket.emit('pixelpaint', { row: led.row, pos: led.pos, rgbobj: led.rgbobj, alpha: led.alpha });
       }
     });
