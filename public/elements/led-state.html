@@ -55,6 +55,7 @@
       },
 
       clickLState: function (e, detail) {
+        e.preventDefault();
         console.log('clickLState');
         //debugger
         //this.dataToElement(e.detail.led, 0);
@@ -63,6 +64,7 @@
       },
 
       dragState: function (e, detail) {
+        e.preventDefault();
         //console.log('dragState');
         var $cur = e.detail.hover();
         var cur_but = e.detail.sourceEvent.buttons;
