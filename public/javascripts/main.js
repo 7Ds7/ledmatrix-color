@@ -9,11 +9,11 @@ var socket = io('http://'+window.location.hostname+':3001');
 var connect_grid;
 
 document.addEventListener("DOMContentLoaded", function() {
-  document.querySelector('.js-button-test').addEventListener('click', function() {
-    console.log('clickityclick');
-    console.log(socket);
-    socket.emit('pixelpaint', 'the button was clicked');
-  });
+  // document.querySelector('.js-button-test').addEventListener('click', function() {
+  //   console.log('clickityclick');
+  //   console.log(socket);
+  //   socket.emit('pixelpaint', 'the button was clicked');
+  // });
 
   socket.on('connect', function(){ console.log('connect on client')});
   socket.on('event', function(data){ console.log('this is event'); console.log(data);});

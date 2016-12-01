@@ -42,13 +42,16 @@
             var lstate = document.createElement('led-state');
             lstate.setAttribute('row', r);
             lstate.setAttribute('pos', p);
-            console.log(window.connect_grid[r][p]);
+            //console.log(window.connect_grid[r][p]);
 
             lstate.setAttribute('alpha', connect_grid[r][p].rgba.a);
             lstate.setAttribute('rgbobj', '{ "r":'+connect_grid[r][p].rgba.r+', "g": '+connect_grid[r][p].rgba.g+', "b":'+ connect_grid[r][p].rgba.b+' }')
             this.$.Container.appendChild(lstate);
           }
         }
+
+        document.querySelector('.js-loader').remove();
+        document.querySelector('ledmatrix-app').classList.remove('u-hide');
       }
     });
   </script>
