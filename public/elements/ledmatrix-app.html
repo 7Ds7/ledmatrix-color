@@ -772,6 +772,7 @@
         switch (true) {
           case (e.detail.but == 1 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.foregroundColor.value;
+            console.log(this.$.canvasToolbar.$.foregroundColor.value);
             this.sendSocket(e.detail.led);
             break;
           case (e.detail.but == 2 && this.currentTool == 'pencil'):
@@ -779,8 +780,8 @@
             this.sendSocket(e.detail.led);
             break;
           case (e.detail.but == 1 || e.detail.but == 2 && this.currentTool == 'eraser'):
-            e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0,0)';
-            e.detail.led.alpha = 0;
+            e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0)';
+            //e.detail.led.alpha = 0;
             this.sendSocket(e.detail.led);
             break;
           default:

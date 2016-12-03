@@ -84,11 +84,11 @@ pp.on('discover', function(controller) {
 
     // capture the update message sent back from the pp controller
     controller.on('update', function() {
-        console.log ({
-            updatePeriod  : this.params.pixelpusher.updatePeriod,
-            deltaSequence : this.params.pixelpusher.deltaSequence,
-            powerTotal    : this.params.pixelpusher.powerTotal
-        });
+        // console.log ({
+        //     updatePeriod  : this.params.pixelpusher.updatePeriod,
+        //     deltaSequence : this.params.pixelpusher.deltaSequence,
+        //     powerTotal    : this.params.pixelpusher.powerTotal
+        // });
     }).on('timeout', function() {
         // be sure to handel the situation when the controller dissappears.
         // this could be due to power cycle or network conditions

@@ -22,7 +22,7 @@
 
     </style>
     <!-- local DOM goes here -->
-    <div id="LedState" on-track="dragState" on-tap="clickLState" data-row$="{{row}}" data-pos$="{{pos}}" data-rgbobj$="{{color}}" data-alpha$="{{alpha}}" style$="background-color: rgba( {{rgbobj.r}}, {{rgbobj.g}}, {{rgbobj.b}}, {{alpha}} );"></div>
+    <div id="LedState" on-track="dragState" on-tap="clickLState" row$="{{row}}" pos$="{{pos}}" rgbobj$="{{color}}" alpha$="{{alpha}}" style$="background-color: rgba( {{rgbobj.r}}, {{rgbobj.g}}, {{rgbobj.b}}, {{alpha}} );"></div>
 
   </template>
 
@@ -98,7 +98,7 @@
           console.log(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb);
           el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
         } else {
-          console.log('Else');
+          console.log('Eraser');
           el.setAttribute('rgbobj', '{ "r":0, "g":0, "b":0}' );
         }
 
