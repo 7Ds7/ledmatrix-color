@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 io.on('connection', function(client) {
   console.log('connect on server') ;
 
-  client.on('disconnect', function(){ console.log('disconnect') });
+  client.on('disconnect', function(){ console.log('####### DISCONNECTED #######') });
 
   client.on('pixelpaint', function(dt) {
     console.log('server says');
