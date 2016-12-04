@@ -44,8 +44,10 @@
             lstate.setAttribute('pos', p);
             //console.log(window.connect_grid[r][p]);
 
+            if (connect_grid[r][p].on) {
             lstate.setAttribute('alpha', connect_grid[r][p].rgba.a);
-            lstate.setAttribute('rgbobj', '{ "r":'+connect_grid[r][p].rgba.r+', "g": '+connect_grid[r][p].rgba.g+', "b":'+ connect_grid[r][p].rgba.b+' }')
+            lstate.setAttribute('rgbobj', '{ "r":'+connect_grid[r][p].rgba.r+', "g": '+connect_grid[r][p].rgba.g+', "b":'+ connect_grid[r][p].rgba.b+' }');
+            }
             this.$.Container.appendChild(lstate);
           }
         }

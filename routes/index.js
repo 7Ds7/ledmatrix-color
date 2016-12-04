@@ -25,8 +25,9 @@ io.on('connection', function(client) {
     console.log(dt.row);
     console.log(dt.pos);
     console.log(dt.alpha);
+
     grid_state[dt.row][dt.pos] = {
-      on: true,
+      on: dt.state,
       rgba: {
         r: dt.rgbobj.r,
         g: dt.rgbobj.g,
@@ -119,7 +120,7 @@ pp.on('discover', function(controller) {
             var s = new PixelPusher.PixelStrip(stripId,PIXELS_PER_STRIP);
 
             for (var pxId = 0; pxId< NUM_STRIPS; pxId++) {
-              if( grid_state[stripId][pxId] ) {
+              if( grid_state[stripId][pxId] && grid_state[stripId][pxId].on == true ) {
                 s.getPixel(pxId).setColor(
                   grid_state[stripId][pxId].rgba.r,
                   grid_state[stripId][pxId].rgba.g,

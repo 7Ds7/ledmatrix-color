@@ -17,6 +17,11 @@ a {
   float: left;
   box-shadow: 0px 0px 1px #000; }
 
+.but {
+  background: #333333;
+  color: #f1f1f1;
+  padding: 5px 7px; }
+
 .u-hide {
   display: none; }
 

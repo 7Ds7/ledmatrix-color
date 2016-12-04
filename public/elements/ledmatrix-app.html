@@ -21,6 +21,7 @@
       canvas-toolbar, led-grid {
         float: left;
       }
+
     </style>
     <!-- local DOM goes here -->
     <div class="container">
@@ -773,26 +774,27 @@
           case (e.detail.but == 1 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.foregroundColor.value;
             console.log(this.$.canvasToolbar.$.foregroundColor.value);
-            this.sendSocket(e.detail.led);
+            this.sendSocket(e.detail.led, true);
             break;
           case (e.detail.but == 2 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.backgroundColor.value;
-            this.sendSocket(e.detail.led);
+            this.sendSocket(e.detail.led, true);
             break;
           case (e.detail.but == 1 || e.detail.but == 2 && this.currentTool == 'eraser'):
             e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0)';
             //e.detail.led.alpha = 0;
-            this.sendSocket(e.detail.led);
+            this.sendSocket(e.detail.led, false);
             break;
           default:
             break;
         };
 
       },
-      sendSocket: function( led) {
+      sendSocket: function( led, state ) {
         console.log(led);
         window.ls = led;
-        socket.emit('pixelpaint', { row: led.row, pos: led.pos, rgbobj: led.rgbobj, alpha: led.alpha });
+
+        socket.emit('pixelpaint', { row: led.row, pos: led.pos, rgbobj: led.rgbobj, alpha: led.alpha, state: state });
       }
     });
   </script>

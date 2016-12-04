@@ -46,6 +46,10 @@
         position: relative;
       }
 
+      .save-tool {
+        margin-top: 30px;
+      }
+
       .swatch, input {
         width: 30px;
         height: 30px;
@@ -97,13 +101,13 @@
         <iron-icon icon="editor:mode-edit"></iron-icon>
       </div>
       <div class="tool" on-click="toolClick" id="eraserTool" data-tool-type="eraser" title="Eraser tool (e)">
-        <iron-icon icon="editor:format-color-reset"></iron-icon>
+        <iron-icon icon="icons:opacity"></iron-icon>
       </div>
 
       <div class="color-swapper">
 
-        <input id="foregroundColor" type="text" class="swatch foreground-color" value="rgb(255, 255, 255)" data-colormode="rgb">
-        <input id="backgroundColor" type="text" class="swatch background-color" value="rgb(50, 50, 255)" data-colormode="rgb">
+        <input id="foregroundColor" type="text" class="swatch foreground-color" value$="{{fcolor}}" data-colormode="rgb">
+        <input id="backgroundColor" type="text" class="swatch background-color" value$="{{bcolor}}" data-colormode="rgb">
 
         <!-- <div class="swatch foreground-color" on-tap="openPicker" style="background: red">
 
@@ -114,6 +118,10 @@
       </div>
 
       <div class="switch-wrapper" on-tap="_shortcutSwapColors" title="Swap colors (x)"><iron-icon icon="icons:swap-vert"></iron-icon></div>
+
+      <div class="tool save-tool" on-click="saveClick" id="savelTool"  title="Save Image (s)">
+        <iron-icon icon="icons:save"></iron-icon>
+      </div>
     </div>
 
   </template>
@@ -123,7 +131,15 @@
       is: 'canvas-toolbar',
 
       properties: {
-        pickers: Array
+        pickers: Array,
+        fcolor: {
+          type: String,
+          value: 'rgb('+Math.floor(Math.random() * (0 + 256) + 0)+', '+Math.floor(Math.random() * (0 + 256) + 0)+', '+Math.floor(Math.random() * (0 + 256) + 0)+')'
+        },
+        bcolor: {
+          type: String,
+          value: 'rgb('+Math.floor(Math.random() * (0 + 256) + 0)+', '+Math.floor(Math.random() * (0 + 256) + 0)+', '+Math.floor(Math.random() * (0 + 256) + 0)+')'
+        }
 
       },
 
@@ -199,6 +215,13 @@
 
       },
 
+      _randColor: function() {
+        var r = Math.floor(Math.random() * (0 + 256) + 0);
+        var g = Math.floor(Math.random() * (0 + 256) + 0);
+        var b = Math.floor(Math.random() * (0 + 256) + 0);
+        return rgb(r,g,b);
+      },
+
       _useShortcut: function(e,d) {
         console.log(e, d);
         console.log(d.keyboardEvent.key);
@@ -212,6 +235,9 @@
             break;
           case 'e':
             this.$.eraserTool.click();
+            break;
+          case 's':
+            this.$.saveTool.click();
             break;
           default:
             break;
@@ -252,6 +278,10 @@
         console.log('ping', e.target);
         this._highlightSelected(e.target);
 
+      },
+
+      saveClick: function(e) {
+         window.open('http://ledmatrix.ddns.net/?action=snapshot');
       }
     });
   </script>
