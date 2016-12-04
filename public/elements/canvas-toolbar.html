@@ -1,7 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
-<link rel="import" href="../bower_components/iron-icons/editor-icons.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../elements/ledmatrix-icons.html">
 
 <script type="text/javascript" src="../bower_components/colorPicker/colors.js"></script>
 <script type="text/javascript" src="../bower_components/colorPicker/colorPicker.data.js"></script>
@@ -93,15 +92,17 @@
     <!-- local DOM goes here -->
     <iron-a11y-keys
       id="keys"
-      keys="x p e"
+      keys="x p e s"
       on-keys-pressed="_useShortcut"></iron-a11y-keys>
 
     <div id="container">
       <div class="tool" on-click="toolClick" id="pencilTool" data-tool-type="pencil" title="Pencil tool (p)">
-        <iron-icon icon="editor:mode-edit"></iron-icon>
+        <!-- <iron-icon icon="editor:mode-edit"></iron-icon> -->
+        <iron-icon icon="ledmatrix:ledon"></iron-icon>
       </div>
       <div class="tool" on-click="toolClick" id="eraserTool" data-tool-type="eraser" title="Eraser tool (e)">
-        <iron-icon icon="icons:opacity"></iron-icon>
+        <!-- <iron-icon icon="icons:opacity"></iron-icon> -->
+        <iron-icon icon="ledmatrix:ledoff"></iron-icon>
       </div>
 
       <div class="color-swapper">
@@ -119,8 +120,8 @@
 
       <div class="switch-wrapper" on-tap="_shortcutSwapColors" title="Swap colors (x)"><iron-icon icon="icons:swap-vert"></iron-icon></div>
 
-      <div class="tool save-tool" on-click="saveClick" id="savelTool"  title="Save Image (s)">
-        <iron-icon icon="icons:save"></iron-icon>
+      <div class="tool save-tool" on-click="saveClick" id="saveTool"  title="Save Image (s)">
+        <iron-icon icon="ledmatrix:save"></iron-icon>
       </div>
     </div>
 
@@ -166,11 +167,9 @@
                 //readOnly: false,
                 // patch: false,
                 init: function(elm, colors) { // colors is a different instance (not connected to colorPicker)
-                  console.log('wetas');
                   elm.style.backgroundColor = elm.value;
                   //elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
-                  console.log(elm);
-
+                  //console.log(elm);
                 }
                 // extractValue: function(elm) {
                 //   console.log('extract');
@@ -223,8 +222,8 @@
       },
 
       _useShortcut: function(e,d) {
-        console.log(e, d);
-        console.log(d.keyboardEvent.key);
+        // console.log(e, d);
+        // console.log(d.keyboardEvent.key);
         var kpressed = d.keyboardEvent.key;
         switch (kpressed) {
           case 'x':
@@ -245,7 +244,7 @@
       },
 
       _shortcutSwapColors: function() {
-        console.log('_shortcutSwapColors');
+        //console.log('_shortcutSwapColors');
         var fc = window.jsColorPicker.colorPickers[0];
         var bc = window.jsColorPicker.colorPickers[1];
         var fhold = this.$.container.querySelector('.foreground-color').value;
@@ -266,7 +265,7 @@
         var $$all_tools = this.$.container.querySelectorAll('.tool');
         var $lm_app = document.querySelector('ledmatrix-app');
         forEachNode($$all_tools, function (index, elm) {
-          console.log(index, elm); // passes index + value back!
+          //console.log(index, elm); // passes index + value back!
           elm.classList.remove('selected')
         });
         el.classList.add('selected');
@@ -275,7 +274,7 @@
       },
 
       toolClick: function(e) {
-        console.log('ping', e.target);
+        //console.log('ping', e.target);
         this._highlightSelected(e.target);
 
       },

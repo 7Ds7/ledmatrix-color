@@ -19,12 +19,12 @@ io.on('connection', function(client) {
   client.on('disconnect', function(){ console.log('####### DISCONNECTED #######') });
 
   client.on('pixelpaint', function(dt) {
-    console.log('server says');
+    console.log('pixelpaint');
     console.log(dt);
-    console.log(typeof dt);
-    console.log(dt.row);
-    console.log(dt.pos);
-    console.log(dt.alpha);
+    // console.log(typeof dt);
+    // console.log(dt.row);
+    // console.log(dt.pos);
+    // console.log(dt.alpha);
 
     grid_state[dt.row][dt.pos] = {
       on: dt.state,

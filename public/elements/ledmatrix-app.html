@@ -767,13 +767,13 @@
         this.addEventListener('doAction', this.doAction);
       },
       doAction: function(e) {
-        console.log('doAction');
+        //console.log('doAction');
         //console.log(e.detail.but);
 
         switch (true) {
           case (e.detail.but == 1 && this.currentTool == 'pencil'):
             e.detail.led.$.LedState.style = 'background-color:' + this.$.canvasToolbar.$.foregroundColor.value;
-            console.log(this.$.canvasToolbar.$.foregroundColor.value);
+            //console.log(this.$.canvasToolbar.$.foregroundColor.value);
             this.sendSocket(e.detail.led, true);
             break;
           case (e.detail.but == 2 && this.currentTool == 'pencil'):
@@ -791,8 +791,8 @@
 
       },
       sendSocket: function( led, state ) {
-        console.log(led);
-        window.ls = led;
+        //console.log(led);
+        //window.ls = led;
 
         socket.emit('pixelpaint', { row: led.row, pos: led.pos, rgbobj: led.rgbobj, alpha: led.alpha, state: state });
       }

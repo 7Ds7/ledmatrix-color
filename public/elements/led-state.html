@@ -56,7 +56,7 @@
 
       clickLState: function (e, detail) {
         e.preventDefault();
-        console.log('clickLState');
+        //console.log('clickLState');
         //debugger
         //this.dataToElement(e.detail.led, 0);
         this.dataToElement(this, 0);
@@ -78,7 +78,7 @@
 
       clickRState: function(e, detail) {
         e.preventDefault();
-        console.log('clickRState');
+        //console.log('clickRState');
         var $cur = Polymer.dom(this).getOwnerRoot().host;
         // $cur.dataToElement(this, 1);
         // document.querySelector('ledmatrix-app').fire('doAction', {led: $cur, but: 2});
@@ -90,15 +90,15 @@
       // THIS DATA TO ELM SHOULD GO IN ledmatridx-app investigate
       // warning: but_cp_index should be related to jsColorPicker array, not button
       dataToElement: function (el, but_cp_index) {
-        console.log('dataToElement');
-        console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
+        // console.log('dataToElement');
+        // console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
 
         if ( document.querySelector('ledmatrix-app').currentTool == 'pencil') {
-          console.log('pencil');
-          console.log(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb);
+          //console.log('pencil');
+          //console.log(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb);
           el.setAttribute('rgbobj', JSON.stringify(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb));
         } else {
-          console.log('Eraser');
+          //console.log('Eraser');
           el.setAttribute('rgbobj', '{ "r":0, "g":0, "b":0}' );
         }
 

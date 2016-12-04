@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
   socket.on('newcomer', function(dt){
-    console.log('asd fired on client');
-    console.log(dt);
+    console.log('initiating newcomer grid');
+    //console.log(dt);
     connect_grid = dt;
   });
 
