@@ -14,9 +14,11 @@ router.get('/', function(req, res, next) {
 });
 
 io.on('connection', function(client) {
-  console.log('connect on server') ;
+  console.log('####### NEW USER #######') ;
+  console.log('Users Connected ' + io.engine.clientsCount);
 
-  client.on('disconnect', function(){ console.log('####### DISCONNECTED #######') });
+
+  client.on('disconnect', function(){ console.log('####### DISCONNECTED #######');console.log('Users Connected ' + io.engine.clientsCount); });
 
   client.on('pixelpaint', function(dt) {
     console.log('pixelpaint');

@@ -92,7 +92,7 @@
     <!-- local DOM goes here -->
     <iron-a11y-keys
       id="keys"
-      keys="x p e s"
+      keys="x w e s"
       on-keys-pressed="_useShortcut"></iron-a11y-keys>
 
     <div id="container">
@@ -120,7 +120,7 @@
 
       <div class="switch-wrapper" on-tap="_shortcutSwapColors" title="Swap colors (x)"><iron-icon icon="icons:swap-vert"></iron-icon></div>
 
-      <div class="tool save-tool" on-click="saveClick" id="saveTool"  title="Save Image (s)" style="display:none">
+      <div class="tool save-tool" on-click="saveClick" id="saveTool"  title="Save Image (s)">
         <iron-icon icon="ledmatrix:save"></iron-icon>
       </div>
     </div>
@@ -229,7 +229,7 @@
           case 'x':
             this._shortcutSwapColors();
             break;
-          case 'p':
+          case 'w':
             this.$.pencilTool.click();
             break;
           case 'e':
