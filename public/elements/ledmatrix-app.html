@@ -782,7 +782,7 @@
             this.sendSocket(e.detail.led, true);
             break;
           case (e.detail.but == 1 || e.detail.but == 2 && this.currentTool == 'eraser'):
-            e.detail.led.$.LedState.style = 'background-color: rgba(0,0,0,0)';
+            e.detail.led.$.LedState.style = 'background-color: rgba(29,29,29,0)';
             //e.detail.led.alpha = 0;
             this.sendSocket(e.detail.led, false);
             break;
