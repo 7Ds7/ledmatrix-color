@@ -92,7 +92,7 @@
       dataToElement: function (el, but_cp_index) {
         // console.log('dataToElement');
         // console.log(window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
-
+        el.setAttribute('alpha', window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
         if ( document.querySelector('ledmatrix-app').currentTool == 'pencil') {
           //console.log('pencil');
           //console.log(window.jsColorPicker.colorPickers[but_cp_index].color.getColor('RND').rgb);
@@ -101,9 +101,9 @@
           //console.log('Eraser');
           el.setAttribute('rgbobj', '{ "r":29, "g":29, "b":29}' );
           el.setAttribute('alpha', 0);
+
         }
 
-        el.setAttribute('alpha', window.jsColorPicker.colorPickers[but_cp_index].color.colors.alpha);
 
       }
 
