@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   socket.on('connect', function(){ console.log('connect on client')});
   socket.on('event', function(data){ console.log('this is event'); console.log(data);});
-  socket.on('disconnect', function(){ console.log('disconnect')});
+
   socket.on('error', function(er) { console.log('ERROReeeee'); console.log(er) });
 
   socket.on('serveranswer', function(data) {
@@ -40,4 +40,15 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log($ls);
     console.log($ls.rgbobj);
   });
+
+  socket.on('disconnect', function() {
+    console.log('disconnect');
+    document.querySelector('.modal').classList.remove('u-hide');
+  });
+
+  // socket.io.on('connect_error', function(err) {
+  // // handle server error here
+  // console.log('Error connecting to server');
+  // });
+
 });
